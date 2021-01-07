@@ -14,7 +14,12 @@
       "launchBrowser": true,
       "launchUrl": "",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "NEO4J_URI": "neo4j+s://demo.neo4jlabs.com",
+        "NEO4J_USER": "movies",
+        "NEO4J_PASSWORD": "movies",
+        "NEO4J_DATABASE": "movies",
+        "NEO4J_VERSION": "4"
       }
     },
     "MoviesDotNetCore": {
@@ -24,7 +29,12 @@
       "launchUrl": "",
       "applicationUrl": "http://localhost:5001;http://localhost:5000",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "NEO4J_URI": "neo4j+s://demo.neo4jlabs.com",
+        "NEO4J_USER": "movies",
+        "NEO4J_PASSWORD": "movies",
+        "NEO4J_DATABASE": "movies",
+        "NEO4J_VERSION": "4"
       }
     }
   }
