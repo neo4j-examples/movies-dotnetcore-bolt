@@ -10,9 +10,9 @@ namespace MoviesDotNetCore.Controllers
     [Route("/")]
     public class MoviesController : ControllerBase
     {
-        private readonly MovieRepository _movieRepository;
+        private readonly IMovieRepository _movieRepository;
 
-        public MoviesController(MovieRepository movieRepository)
+        public MoviesController(IMovieRepository movieRepository)
         {
             _movieRepository = movieRepository;
         }

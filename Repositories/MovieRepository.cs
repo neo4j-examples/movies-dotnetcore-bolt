@@ -6,7 +6,14 @@ using Neo4j.Driver;
 
 namespace MoviesDotNetCore.Repositories
 {
-    public class MovieRepository
+    public interface IMovieRepository
+    {
+        Task<Movie> FindByTitle(string title);
+        Task<List<Movie>> Search(string search);
+        Task<D3Graph> FetchD3Graph(int limit);
+    }
+
+    public class MovieRepository : IMovieRepository
     {
         private readonly IDriver _driver;
 

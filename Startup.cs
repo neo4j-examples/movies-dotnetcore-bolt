@@ -23,7 +23,7 @@ namespace MoviesDotNetCore
         {
 
             services.AddControllers();
-            services.AddScoped<MovieRepository, MovieRepository>();
+            services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddSingleton(GraphDatabase.Driver(
                 Environment.GetEnvironmentVariable("NEO4J_URI") ?? "neo4j+s://demo.neo4jlabs.com",
                 AuthTokens.Basic(
