@@ -31,7 +31,7 @@ curl http://BASE_URL/graph
 
 == Setup
 
-This uses the ASP.NET core framework, along with the official Neo4j Go driver.
+This uses the ASP.NET core framework, along with the official Neo4j .NET driver.
 
 == Run:
 
