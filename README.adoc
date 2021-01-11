@@ -48,6 +48,8 @@ You can search for movies by title or and click on any entry.
 
 == Configuration options
 
+NOTE: These are preferably configured via `Properties/launchSettings.json`.
+
 [%header,cols=2*]
 |===
 |Environment variable name

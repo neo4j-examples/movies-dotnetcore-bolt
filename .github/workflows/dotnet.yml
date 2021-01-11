@@ -1,0 +1,70 @@
+name: .NET
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ '**' ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+
+  e2e:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 10.x ]
+        neo4j-version: [ "3.5", "3.5-enterprise", "4.2", "4.2-enterprise" ]
+    services:
+      neo4j:
+        image: neo4j:${{ matrix.neo4j-version }}
+        ports: [ "7687:7687" ]
+        env:
+          NEO4J_ACCEPT_LICENSE_AGREEMENT: yes
+          NEO4J_AUTH: "neo4j/abcde"
+        options: >-
+          --name neo4j-e2e
+          --health-cmd "cypher-shell -u neo4j -p abcde 'RETURN 1'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-start-period 10s
+          --health-retries 5
+          --volume /tmp:/movies
+    steps:
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+      - name: Download dataset
+        run: curl --fail --output /tmp/movies.cypher https://raw.githubusercontent.com/neo4j-graph-examples/movies/8508a527d8aa1c261b0978d1d5b3156d4ac8328e/scripts/import.cypher
+      - name: Import dataset (Neo4j 3.5)
+        if: ${{ startsWith(matrix.neo4j-version, '3.5') }}
+        run: docker exec --interactive neo4j-e2e sh -c 'cat /movies/movies.cypher | cypher-shell -u neo4j -p abcde'
+      - name: Import dataset
+        if: ${{ !startsWith(matrix.neo4j-version, '3.5') }}
+        run: docker exec --interactive neo4j-e2e cypher-shell -u neo4j -p abcde --file /movies/movies.cypher
+      - uses: actions/checkout@v2
+      - uses: cypress-io/github-action@v2
+        env:
+          NEO4J_VERSION: ${{ matrix.neo4j-version }}
+          NEO4J_URI: bolt://localhost
+          NEO4J_DATABASE: "neo4j"
+          NEO4J_USER: neo4j
+          NEO4J_PASSWORD: abcde
+        with:
+          start: dotnet run --no-launch-profile
+          browser: chrome
+          headless: true
+          spec: cypress/integration/movies.spec.js

@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -15,6 +16,7 @@ namespace MoviesDotNetCore
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UseUrls($"http://localhost:{Environment.GetEnvironmentVariable("PORT") ?? "8080"}");
                 });
     }
 }
