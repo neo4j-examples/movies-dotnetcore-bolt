@@ -1,6 +1,6 @@
 == Neo4j Movies Application: Quick Start
 
-// image::https://github.com/neo4j-examples/movies-golang-bolt/workflows/Go/badge.svg[CI]
+image::https://github.com/neo4j-examples/movies-dotnetcore-bolt/workflows/.NET/badge.svg[CI]
 
 == The Stack
 
