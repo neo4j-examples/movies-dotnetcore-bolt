@@ -12,12 +12,15 @@ namespace MoviesDotNetCore.Model
 
         public string Tagline { get; }
 
-        public Movie(string title, IEnumerable<Person> cast = null, long? released = null, string tagline = null)
+        public long? Votes { get; }
+
+        public Movie(string title, IEnumerable<Person> cast = null, long? released = null, string tagline = null, long? votes = null)
         {
             Title = title;
             Cast = cast;
             Released = released;
             Tagline = tagline;
+            Votes = votes;
         }
     }
 }
