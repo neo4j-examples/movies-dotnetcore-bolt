@@ -24,6 +24,13 @@ namespace MoviesDotNetCore.Controllers
             return await _movieRepository.FindByTitle(title);
         }
 
+        [Route("/movie/{title}/vote")]
+        [HttpPost]
+        public async Task<int> VoteInMovie([FromRoute(Name = "title")] string title)
+        {
+            return await _movieRepository.VoteByTitle(title);
+        }
+
         [Route("/search")]
         [HttpGet]
         public async Task<List<Movie>> SearchMovies([FromQuery(Name = "q")] string search)

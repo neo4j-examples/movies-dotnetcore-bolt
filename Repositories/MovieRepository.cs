@@ -9,6 +9,7 @@ namespace MoviesDotNetCore.Repositories
     public interface IMovieRepository
     {
         Task<Movie> FindByTitle(string title);
+        Task<int> VoteByTitle(string title);
         Task<List<Movie>> Search(string search);
         Task<D3Graph> FetchD3Graph(int limit);
     }
@@ -53,6 +54,30 @@ namespace MoviesDotNetCore.Repositories
             }
         }
 
+        public async Task<int> VoteByTitle(string title)
+        {
+            var session = _driver.AsyncSession(WithDatabase);
+            try
+            {
+                return await session.WriteTransactionAsync(async transaction =>
+                {
+                    var cursor = await transaction.RunAsync(@"
+                            MATCH (m:Movie {title: $title})
+                            WITH m, (CASE WHEN exists(m.votes) THEN m.votes ELSE 0 END) AS currentVotes
+                            SET m.votes = currentVotes + 1;",
+                        new {title}
+                    );
+
+                    var summary = await cursor.ConsumeAsync();
+                    return summary.Counters.PropertiesSet;
+                });
+            }
+            finally
+            {
+                await session.CloseAsync();
+            }
+        }
+
         public async Task<List<Movie>> Search(string search)
         {
             var session = _driver.AsyncSession(WithDatabase);
@@ -65,14 +90,16 @@ namespace MoviesDotNetCore.Repositories
                         WHERE TOLOWER(movie.title) CONTAINS TOLOWER($title)
                         RETURN movie.title AS title,
                                movie.released AS released,
-                               movie.tagline AS tagline",
+                               movie.tagline AS tagline,
+                               movie.votes AS votes",
                         new {title = search}
                     );
 
                     return await cursor.ToListAsync(record => new Movie(
                         title: record["title"].As<string>(),
                         tagline: record["tagline"].As<string>(),
-                        released: record["released"].As<long>()
+                        released: record["released"].As<long>(),
+                        votes: record["votes"]?.As<long>()
                     ));
                 });
             }
