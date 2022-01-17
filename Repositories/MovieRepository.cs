@@ -33,11 +33,11 @@ namespace MoviesDotNetCore.Repositories
                     var cursor = await transaction.RunAsync(@"
                         MATCH (movie:Movie {title:$title})
                         OPTIONAL MATCH (movie)<-[r]-(person:Person)
-                        RETURN movie.title as title,
-                               COLLECT({
+                        RETURN movie.title AS title,
+                               collect({
                                    name:person.name,
-                                   job: HEAD(SPLIT(TOLOWER(TYPE(r)),'_')),
-                                   role: REDUCE(acc = '', role IN r.roles | acc + CASE WHEN acc='' THEN '' ELSE ', ' END + role)}
+                                   job: head(split(toLower(type(r)),'_')),
+                                   role: reduce(acc = '', role IN r.roles | acc + CASE WHEN acc='' THEN '' ELSE ', ' END + role)}
                                ) AS cast",
                         new {title}
                     );
@@ -63,7 +63,7 @@ namespace MoviesDotNetCore.Repositories
                 {
                     var cursor = await transaction.RunAsync(@"
                             MATCH (m:Movie {title: $title})
-                            SET m.votes = COALESCE(m.votes, 0) + 1;",
+                            SET m.votes = coalesce(m.votes, 0) + 1;",
                         new {title}
                     );
 
@@ -86,7 +86,7 @@ namespace MoviesDotNetCore.Repositories
                 {
                     var cursor = await transaction.RunAsync(@"
                         MATCH (movie:Movie)
-                        WHERE TOLOWER(movie.title) CONTAINS TOLOWER($title)
+                        WHERE toLower(movie.title) CONTAINS toLower($title)
                         RETURN movie.title AS title,
                                movie.released AS released,
                                movie.tagline AS tagline,
@@ -119,7 +119,7 @@ namespace MoviesDotNetCore.Repositories
                         MATCH (m:Movie)<-[:ACTED_IN]-(p:Person)
                         WITH m, p
                         ORDER BY m.title, p.name
-                        RETURN m.title AS title, COLLECT(p.name) AS cast
+                        RETURN m.title AS title, collect(p.name) AS cast
                         LIMIT $limit",
                         new {limit}
                     );
