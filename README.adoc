@@ -8,7 +8,7 @@ These are the components of our Web Application:
 
 * Application Type:         .NET Core Application
 * Web framework:            https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-6.0[ASP.NET core]
-* Neo4j Database Connector: https://github.com/neo4j/neo4j-dotnet-driver/[Neo4j .NET Driver] for Cypher https://neo4j.com/developer/dotnet/[Docs]
+* Neo4j Database Connector: https://github.com/neo4j/neo4j-dotnet-driver/[Neo4j .NET Driver] for Cypher https://neo4j.com/docs/getting-started/current/languages-guides/neo4j-dotnet/[Docs]
 * Database:                 Neo4j-Server 3.5, 4.x/5.X with multi-database
 * Frontend:                 jquery, bootstrap, https://d3js.org/[d3.js]
 
