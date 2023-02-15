@@ -42,7 +42,7 @@ Start this application with:
 dotnet run
 ----
 
-Go to http://localhost:5001
+Go to http://localhost:8080
 
 You can search for movies by title or and click on any entry.
 
