@@ -6,9 +6,11 @@ image::https://github.com/neo4j-examples/movies-dotnetcore-bolt/workflows/.NET/b
 
 These are the components of our Web Application:
 
-* Application Type:         .NET Core Application
+* Application Type:         .NET Core Application.
 * Web framework:            https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-6.0[ASP.NET core]
-* Neo4j Database Connector: https://github.com/neo4j/neo4j-dotnet-driver/[Neo4j .NET Driver] for working with Cypher https://neo4j.com/docs/getting-started/current/languages-guides/neo4j-dotnet/[Driver docs] https://neo4j.com/docs/getting-started/current/cypher-intro/[Cypher Docs]
+* Neo4j Database Connector: https://github.com/neo4j/neo4j-dotnet-driver/[Neo4j .NET Driver] for working with Cypher
+** https://neo4j.com/docs/getting-started/current/languages-guides/neo4j-dotnet/[Driver docs]
+** https://neo4j.com/docs/getting-started/current/cypher-intro/[Cypher docs]
 * Database:                 Neo4j-Server 3.5, 4.X/5.X with multi-database
 * Frontend:                 jquery, bootstrap, https://d3js.org/[d3.js]
 
