@@ -75,5 +75,4 @@ jobs:
         with:
           working-directory: e2e
           browser: chrome
-          headless: true
           start: dotnet run --no-launch-profile --project ..
