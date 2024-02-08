@@ -20,6 +20,10 @@ public class MoviesController : ControllerBase
     [HttpGet]
     public Task<Movie> GetMovieDetails([FromRoute] string title)
     {
+        if (title == "favicon.ico")
+            return null;
+
+        title = System.Net.WebUtility.UrlDecode(title);
         return _movieRepository.FindByTitle(title);
     }
 
@@ -27,6 +31,7 @@ public class MoviesController : ControllerBase
     [HttpPost]
     public Task<int> VoteInMovie([FromRoute] string title)
     {
+        title = System.Net.WebUtility.UrlDecode(title);
         return _movieRepository.VoteByTitle(title);
     }
 }
