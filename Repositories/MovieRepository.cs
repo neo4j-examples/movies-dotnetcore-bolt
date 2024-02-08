@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using MoviesDotNetCore.Model;
 using Neo4j.Driver;
@@ -18,12 +20,20 @@ public interface IMovieRepository
 public class MovieRepository : IMovieRepository
 {
     private readonly IDriver _driver;
-
-    private readonly QueryConfig _queryConfig  = new (
-        database: Environment.GetEnvironmentVariable("NEO4J_DATABASE") ?? "movies");
+    private readonly QueryConfig _queryConfig;
 
     public MovieRepository(IDriver driver)
     {
+        var versionStr = Environment.GetEnvironmentVariable("NEO4J_VERSION") ?? "";
+        if( double.TryParse(versionStr, out var version) && version >= 4.0)
+        {
+            _queryConfig = new QueryConfig(database: Environment.GetEnvironmentVariable("NEO4J_DATABASE") ?? "movies");
+        }
+        else
+        {
+            _queryConfig = new QueryConfig();
+        }
+
         _driver = driver;
     }
 
