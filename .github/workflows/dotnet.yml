@@ -76,3 +76,4 @@ jobs:
           working-directory: e2e
           browser: chrome
           start: dotnet run --no-launch-profile --project ..
+          wait-on: 'http://localhost:8080'
