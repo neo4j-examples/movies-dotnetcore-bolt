@@ -15,7 +15,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
@@ -61,9 +61,9 @@ jobs:
         if: ${{ !startsWith(matrix.neo4j-version, '3.5') }}
         run: docker exec --interactive neo4j-e2e cypher-shell -u neo4j -p abcde --file /movies/movies.cypher
       - name: Check out project sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Check out test harness sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: neo4j-examples/movies-harness
           path: e2e
